@@ -1,0 +1,7 @@
+package link
+
+import "golink/model"
+
+templ Created(link model.Link, url templ.SafeURL) {
+    <p>Created <a href={ url }>{ link.Code }</a></p>
+}

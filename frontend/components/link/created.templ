@@ -1,7 +1,5 @@
 package link
 
-import "golink/model"
-
-templ Created(link model.Link, url templ.SafeURL) {
-    <p>Created <a href={ url }>{ link.Code }</a></p>
+templ Created(link string, url templ.SafeURL) {
+    <p>Successfully shortened link! Access it using <a href={ url }>{ link }</a></p>
 }

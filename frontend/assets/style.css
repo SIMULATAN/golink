@@ -1,0 +1,28 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+.limited-width {
+    width: max(33%, min(500px, 95vw));
+}
+
+.link-create_code p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.link-create_code input {
+    /* this combination forces the input to have the right width */
+    width: 0;
+    flex-grow: 1;
+}
+
+#link-create_result {
+    margin-top: 1em;
+}

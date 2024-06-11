@@ -18,17 +18,21 @@ func main() {
 	linkService := service.LinkService{}
 	linkService.Init()
 
+	baseUrl := "localhost:8080"
+
 	app.GET("/", func(c echo.Context) error {
-		return route.Render(c, home.Home())
+		return route.Render(c, home.Home(baseUrl))
 	})
 
 	linkHandler := route.LinkHandler{
 		LinkService: linkService,
-		BaseUrl:     "localhost:8080",
+		BaseUrl:     baseUrl,
 	}
 
 	app.POST("/link", linkHandler.CreateLink)
 	app.GET("/to/:code", linkHandler.RedirectLink)
+
+	app.Static("/", "frontend/assets")
 
 	app.Logger.Fatal(app.Start(":8080"))
 }

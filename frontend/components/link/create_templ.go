@@ -10,7 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-func Create() templ.Component {
+func Create(baseUrl string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -23,7 +23,20 @@ func Create() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/link\"><input name=\"target\" type=\"url\"> <input name=\"code\" type=\"text\"> <button type=\"submit\">Submit</button></form>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/link\" hx-target=\"#link-create_result\" hx-swap=\"innerHTML\" class=\"d-inline\"><div class=\"mb-3\"><label for=\"target\" class=\"form-label\">Target URL</label> <input type=\"url\" class=\"form-control\" id=\"code\" name=\"target\" aria-describedby=\"targetHelp\"><div id=\"targetHelp\" class=\"form-text\">Where should the short link redirect to?</div></div><div class=\"mb-3 link-create_code\"><label for=\"code\" class=\"form-label\">Code</label><p>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(baseUrl)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/components/link/create.templ`, Line: 12, Col: 20}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("/to/<input type=\"text\" class=\"form-control d-inline\" id=\"code\" name=\"code\"></p></div><button type=\"submit\" class=\"btn btn-primary\">Create</button></form><div id=\"link-create_result\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

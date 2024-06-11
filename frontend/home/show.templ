@@ -3,8 +3,11 @@ package home
 import "golink/frontend/layout"
 import "golink/frontend/components/link"
 
-templ Home() {
+templ Home(baseUrl string) {
 	@layout.Base() {
-	    @link.Create()
+	    <div class="limited-width">
+            <h1>Shorten URL</h1>
+            @link.Create(baseUrl)
+	    </div>
 	}
 }

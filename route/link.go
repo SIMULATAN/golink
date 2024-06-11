@@ -26,8 +26,9 @@ func (h *LinkHandler) CreateLink(ctx echo.Context) error {
 	if err != nil {
 		return err
 	}
-	shortUrl := templ.SafeURL(h.BaseUrl + "/to/" + createdLink.Code)
-	return Render(ctx, link.Created(*createdLink, shortUrl))
+	fullUrl := h.BaseUrl + "/to/" + createdLink.Code
+	safeUrl := templ.SafeURL(fullUrl)
+	return Render(ctx, link.Created(fullUrl, safeUrl))
 }
 
 func (h *LinkHandler) RedirectLink(c echo.Context) error {

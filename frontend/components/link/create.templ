@@ -1,9 +1,17 @@
 package link
 
-templ Create() {
-    <form hx-post="/link">
-        <input name="target" type="url"/>
-        <input name="code" type="text"/>
-        <button type="submit">Submit</button>
+templ Create(baseUrl string) {
+    <form hx-post="/link" hx-target="#link-create_result" hx-swap="innerHTML" class="d-inline">
+      <div class="mb-3">
+        <label for="target" class="form-label">Target URL</label>
+        <input type="url" class="form-control" id="code" name="target" aria-describedby="targetHelp">
+        <div id="targetHelp" class="form-text">Where should the short link redirect to?</div>
+      </div>
+      <div class="mb-3 link-create_code">
+        <label for="code" class="form-label">Code</label>
+        <p>{ baseUrl }/to/<input type="text" class="form-control d-inline" id="code" name="code"></p>
+      </div>
+      <button type="submit" class="btn btn-primary">Create</button>
     </form>
+    <div id="link-create_result"></div>
 }

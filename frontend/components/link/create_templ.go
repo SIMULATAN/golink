@@ -23,7 +23,7 @@ func Create(baseUrl string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/link\" hx-target=\"#link-create_result\" hx-swap=\"innerHTML\" class=\"d-inline\"><div class=\"mb-3\"><label for=\"target\" class=\"form-label\">Target URL</label> <input type=\"url\" class=\"form-control\" id=\"code\" name=\"target\" aria-describedby=\"targetHelp\"><div id=\"targetHelp\" class=\"form-text\">Where should the short link redirect to?</div></div><div class=\"mb-3 link-create_code\"><label for=\"code\" class=\"form-label\">Code</label><p>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/link\" hx-target=\"#link-create_result\" hx-swap=\"innerHTML\" class=\"d-inline\"><div class=\"mb-3\"><label for=\"target\" class=\"form-label\"><span style=\"color: orangered\">*</span> Target URL</label> <input type=\"url\" class=\"form-control\" id=\"code\" name=\"target\" aria-describedby=\"targetHelp\"><div id=\"targetHelp\" class=\"form-text\">Where should the short link redirect to?</div></div><div class=\"mb-3 link-create_code\"><label for=\"code\" class=\"form-label\">Code</label><p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

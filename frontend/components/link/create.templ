@@ -3,7 +3,7 @@ package link
 templ Create(baseUrl string) {
     <form hx-post="/link" hx-target="#link-create_result" hx-swap="innerHTML" class="d-inline">
       <div class="mb-3">
-        <label for="target" class="form-label">Target URL</label>
+        <label for="target" class="form-label"><span style="color: orangered">*</span> Target URL</label>
         <input type="url" class="form-control" id="code" name="target" aria-describedby="targetHelp">
         <div id="targetHelp" class="form-text">Where should the short link redirect to?</div>
       </div>

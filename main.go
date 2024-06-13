@@ -5,6 +5,7 @@ import (
 	"golink/frontend/home"
 	"golink/route"
 	"golink/service"
+	"golink/service/link"
 )
 
 func main() {
@@ -15,7 +16,7 @@ func main() {
 		route.HandleError(app, err, c)
 	}
 
-	linkService := service.LinkService{}
+	var linkService service.LinkService = &link.InMemoryLinkService{}
 	linkService.Init()
 
 	baseUrl := "localhost:8080"

@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS link (
+    code   TEXT NOT NULL PRIMARY KEY,
+    target TEXT NOT NULL
+)

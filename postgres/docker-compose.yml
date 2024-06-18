@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:17beta1-alpine
+    restart: unless-stopped
+    user: ${UID:-1000}:${GID:-1000}
+    ports:
+      - "5243:5432"
+    environment:
+      POSTGRES_USER: golink
+      POSTGRES_PASSWORD: golink
+      POSTGRES_DB: golink
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+        - ./data:/var/lib/postgresql/data

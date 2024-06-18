@@ -1,14 +1,29 @@
 package main
 
 import (
+	"context"
+	_ "embed"
 	"github.com/labstack/echo/v4"
+	"golink/config"
 	"golink/frontend/home"
 	"golink/route"
 	"golink/service"
 	"golink/service/link"
+	"log"
+	"time"
+)
+
+var (
+	//go:embed sql/schema.sql
+	DatabaseSchema string
 )
 
 func main() {
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		log.Fatalln("Error while loading config!", err)
+	}
+
 	app := echo.New()
 	app.Debug = true
 
@@ -16,7 +31,13 @@ func main() {
 		route.HandleError(app, err, c)
 	}
 
-	var linkService service.LinkService = &link.InMemoryLinkService{}
+	var linkService service.LinkService
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	linkService, err = link.NewPostgresService(ctx, cfg.Postgres, DatabaseSchema)
+	if err != nil {
+		log.Fatalln("Error while connecting to postgres!", err)
+	}
 	linkService.Init()
 
 	baseUrl := "localhost:8080"

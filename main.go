@@ -40,15 +40,13 @@ func main() {
 	}
 	linkService.Init()
 
-	baseUrl := "localhost:8080"
-
 	app.GET("/", func(c echo.Context) error {
-		return route.Render(c, home.Home(baseUrl))
+		return route.Render(c, home.Home(cfg.BaseUrl))
 	})
 
 	linkHandler := route.LinkHandler{
 		LinkService: linkService,
-		BaseUrl:     baseUrl,
+		BaseUrl:     cfg.BaseUrl,
 	}
 
 	app.POST("/link", linkHandler.CreateLink)

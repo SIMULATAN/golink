@@ -2,8 +2,10 @@ package link
 
 import (
 	"context"
+	"database/sql"
 	"database/sql/driver"
 	_ "embed"
+	"errors"
 	"fmt"
 	"github.com/XSAM/otelsql"
 	"github.com/jackc/pgx/v5"
@@ -96,7 +98,9 @@ func (s *PostgresLinkService) CreateLink(target string, short string) (*model.Li
 		Code:   short,
 	}
 	// check if target exists
-	if _, err := s.conn.Exec("SELECT 1 FROM link WHERE target = $1", target); err == nil {
+	var err error
+	var result model.Link
+	if err = s.conn.Get(&result, "SELECT * FROM link WHERE code = $1", short); err == nil || !errors.Is(err, sql.ErrNoRows) {
 		return nil, service.CodeExistsError
 	}
 	if _, err := s.conn.NamedExec("INSERT INTO link (target, code) VALUES (:target, :code)", link); err != nil {
@@ -109,14 +113,14 @@ func (s *PostgresLinkService) CreateLink(target string, short string) (*model.Li
 func (s *PostgresLinkService) Init() {}
 
 type PostgresConfig struct {
-	Host     *string `cfg:"host"`
-	Port     *int    `cfg:"port"`
-	Username *string `cfg:"username"`
-	Password *string `cfg:"password"`
-	Database *string `cfg:"database"`
-	SSLMode  *string `cfg:"ssl_mode"`
+	Host     *string `cfg:"host" mapstructure:"host"`
+	Port     *int    `cfg:"port" mapstructure:"port"`
+	Username *string `cfg:"username" mapstructure:"username"`
+	Password *string `cfg:"password" mapstructure:"password"`
+	Database *string `cfg:"database" mapstructure:"database"`
+	SSLMode  *string `cfg:"ssl_mode" mapstructure:"ssl_mode"`
 
-	Uri *string `cfg:"uri"`
+	Uri *string `cfg:"uri" mapstructure:"uri"`
 }
 
 func (c PostgresConfig) PostgresDataSourceName() (string, error) {

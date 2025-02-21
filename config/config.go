@@ -1,22 +1,27 @@
 package config
 
 import (
+	"github.com/spf13/viper"
 	"golink/service/link"
-	"gopkg.in/yaml.v3"
-	"os"
+	"strings"
 )
 
 type Config struct {
-	Postgres link.PostgresConfig `yaml:"postgres"`
+	BaseUrl  string              `yaml:"base_url" mapstructure:"base_url"`
+	Postgres link.PostgresConfig `yaml:"postgres" mapstructure:"postgres"`
 }
 
-func LoadConfig() (Config, error) {
+func LoadConfig() (*Config, error) {
 	var cfg Config
-	io, err := os.ReadFile("config.yml")
-	if err != nil {
-		return cfg, err
-	}
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+	viper.AddConfigPath(".")
+	viper.SetEnvPrefix("golink")
+	viper.AutomaticEnv()
 
-	err = yaml.Unmarshal(io, &cfg)
-	return cfg, err
+	err := viper.ReadInConfig()
+	err = viper.Unmarshal(&cfg)
+	if err != nil {
+		return nil, err
+	}
+	return &cfg, err
 }
